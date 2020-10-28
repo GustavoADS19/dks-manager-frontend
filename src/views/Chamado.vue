@@ -6,7 +6,7 @@
                 <form method="post" action="/registrar-demanda">
                     <div class="form-group">
                     <label for="agencia">Agência solicitante</label>
-                    <select v-on:change="mudarAgencia" name="agencia" class="form-control" type="text" v-model="agencia">
+                    <select required="required" v-on:change="mudarAgencia" name="agencia" class="form-control" type="text" v-model="agencia">
                         <option value="DKS" selected>DKS</option>
                         <option value="VMO">VMO</option>
                         <option value="GLW">GLW</option>
@@ -15,7 +15,7 @@
                     
                     <div class="form-group">
                         <label for="demandante">Demandante</label>
-                        <select name="demandante" class="form-control" type="text" v-model="demandante">
+                        <select required="required" name="demandante" class="form-control" type="text" v-model="demandante">
                             <option v-for="user in users" v-bind:key="user.email" v-bind:value="user.email">{{user.name}} - {{user.email}}</option>
                         </select>
                     </div>
@@ -29,24 +29,24 @@
 
                     <div class="form-group">
                         <label for="demandado">Demandado</label>
-                        <select disabled name="demandado" class="form-control" type="text" v-model="demandado">
+                        <select required="required" disabled name="demandado" class="form-control" type="text" v-model="demandado">
                             <option selected="selected" value="matheusibrahim@dkseventos.com.br">Matheus Ibrahim - matheusibrahim@dkseventos.com.br</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="material">Material solicitado</label>
-                        <input name="material" class="form-control" type="text" v-model="material"/>
+                        <input required="required" name="material" class="form-control" type="text" v-model="material"/>
                     </div>
                     
                     <div class="form-group">
                         <label for="dataLimite">Data limite para entrega</label>
-                        <input name="dataLimite" class="form-control" type="text" v-model="dataLimite"/>
+                        <input required="required" name="dataLimite" class="form-control" type="text" v-model="dataLimite"/>
                     </div>
 
                     <div class="form-group">
                         <label for="comentario">Comente sobre a solicitação</label>
-                        <textarea name="comentario" class="form-control" v-model="comentario"/>
+                        <textarea required="required" name="comentario" class="form-control" v-model="comentario"/>
                     </div>
 
                     <!--
@@ -71,6 +71,7 @@ import vmo from '../assets/vmo.png';
 import glw from '../assets/glw.png';
 
 import axios from 'axios';
+import auth from '../utils/auth';
 
 export default {
     data(){
@@ -212,6 +213,12 @@ export default {
             } else {
                 alert("Preencha todos os campos!");
             }
+        }
+    },
+
+    async mounted(){
+        if(await auth() == false){
+            this.$router.push("/login");
         }
     }
 

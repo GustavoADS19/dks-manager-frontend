@@ -7,35 +7,74 @@
         <div class="form-group">
             <label for="nome">Nome Completo</label>
             <br>
-            <input type="text" name="nome" class="form-control"/>
+            <input required="required" type="text" name="nome" class="form-control" v-model="name"/>
         </div>
         <div class="form-group">
             <label for="email">E-mail</label>
             <br>
-            <input type="email" name="email" class="form-control"/>
+            <input required="required" type="email" name="email" class="form-control" v-model="email"/>
             <p>OBS: o email deve obrigatóriamente finalizar com <b>@dkseventos.com.br</b>, <b>@vmoturismo.com.br</b>, <b>@vmoeventos.com.br</b>, <b>@glweventos.com.br</b></p>
         </div>
         <div class="form-group">
             <label for="password">Senha</label>
             <br>
-            <input type="password" name="password" class="form-control"/>
+            <input required="required" type="password" name="password" class="form-control" v-model="password"/>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirmar senha</label>
+            <br>
+            <input required="required" type="password" name="confirm-password" class="form-control" v-model="passwordCheck"/>
+        </div>
+        <div class="form-group">
+            <label for="whatsapp">Telefone (Whatsapp)</label>
+            <br>
+            <input required="required" type="text" name="whatsapp" class="form-control" v-model="whatsapp"/>
+        </div>
+        <router-link to="/login">Já possui uma conta? Faça o login.</router-link>
+        <div class="btn-container">
+            <button type="submit" class="btn register" v-on:click="registerUser">REGISTRAR</button>
         </div>
         </form>
-        <router-link to="/login">Já possui uma conta? Faça o login.</router-link>
-        <button class="btn">REGISTRAR</button>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data(){
         return {
-
+            name: '',
+            email: '',
+            password: '',
+            passwordCheck: '',
+            whatsapp: ''
         }
     },
 
     methods:{
-        
+        registerUser(event){
+            event.preventDefault();
+
+            const name = this.name;
+            const email = this.email;
+            const password = this.password;
+            const whatsapp = this.whatsapp;
+            
+            const data = { name, email, password, whatsapp };
+            if(name.trim() !== "" && email.trim() !== "" && password.trim() !== "" && whatsapp.trim() !== ""){
+                if(password == this.passwordCheck){
+                    axios.post("https://dks-manager-backend.herokuapp.com/create-user", data).then((response)=>{
+                        alert("Usuário registrado com sucesso!");
+                        this.$router.push("/login");
+                    });
+                } else {
+                    alert("As senhas não batem!");
+                }
+            } else {
+                alert("Preencha todos os campos!");
+            }
+        }
     }
 }
 </script>
@@ -70,19 +109,20 @@ export default {
         margin-bottom: 6px;
     }
 
-    button{
+    .btn-container {
+        text-align: center;
+    }
+
+    .register{
         background-color: var(--color-dks);
         border: none;
         font-weight: bolder;
         font-size: 26px;
         border-radius: 6px;
-        margin: 40px 0;
+        margin-top: 40px;
+        margin-bottom: 40px;
         color: white;
         padding: 5px 40px;
-    }
-
-    button:hover{
-        color: white;
     }
 
     form { 
