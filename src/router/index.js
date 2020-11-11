@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
 import Registro from '../views/Registro.vue';
 import Chamado from '../views/Chamado.vue';
-import ListagemDeChamados from "../views/ListagemDeChamados.vue";
+import Painel from "../views/Painel.vue";
 
 Vue.use(VueRouter);
 
@@ -25,9 +25,9 @@ Vue.use(VueRouter);
     component: Registro
   },
   {
-    path: '/listagem-de-chamados',
-    name: 'Listagem de Chamados',
-    component: ListagemDeChamados 
+    path: '/painel',
+    name: 'Painel',
+    component: Painel 
   },
   {
     path: '/*',

@@ -2,8 +2,9 @@
     <div id="page-chamado">
         <div class="background"></div>
         <header><h1>Abertura de Chamados</h1></header>
-            <main>
-                <form method="post" action="/registrar-demanda">
+            <h2 v-if="loaded == false">Carregando..</h2>
+            <main v-if="loaded == true">
+                <form method="post">
                     <div class="form-group">
                     <label for="agencia">Agência solicitante</label>
                     <select required="required" v-on:change="mudarAgencia" name="agencia" class="form-control" type="text" v-model="agencia">
@@ -15,7 +16,7 @@
                     
                     <div class="form-group">
                         <label for="demandante">Demandante</label>
-                        <select required="required" name="demandante" class="form-control" type="text" v-model="demandante">
+                        <select disabled="disabled" required="required" name="demandante" class="form-control" type="text" v-model="demandante">
                             <option v-for="user in users" v-bind:key="user.email" v-bind:value="user.email">{{user.name}} - {{user.email}}</option>
                         </select>
                     </div>
@@ -49,15 +50,13 @@
                         <textarea required="required" name="comentario" class="form-control" v-model="comentario"/>
                     </div>
 
-                    <!--
-                    <div class="form-group">
-                        <label for="arquivos">Fazer upload dos arquivos</label>
-                        <input name="arquivos" type="file" accept=".png, .jpg, .jpeg"/>
-                    </div> -->
+                    <!--<div class="form-group">
+                        <label for="anexo">Fazer upload dos arquivos</label>
+                        <input name="anexo" type="file" accept=".png, .jpg, .jpeg"/>
+                    </div>-->
 
                     <div class="button-container btn-center">
                         <button type="submit" class="btn btn-primary" v-on:click="enviarDados">ENVIAR SOLICITAÇÃO</button>
-                        <router-link to="/listagem-de-chamados"><button class="button-main">Ver fila de demandas</button></router-link>
                     </div>
                 </form>
             </main>
@@ -82,74 +81,8 @@ export default {
             material: '',
             dataLimite: '',
             comentario: '',
-            users: [{
-                name: "Matheus Ibrahim",
-                email: "matheusibrahim@dkseventos.com.br"
-            },
-            {
-                name: "Alexandre Oliboni",
-                email: "alexandreoliboni@dkseventos.com.br"
-            },
-            {
-                name: "Camila Pontremoli",
-                email: "camilapontremoli@dkseventos.com.br"
-            },
-            {
-                name: "Daniel Klein",
-                email: "danielklein@dkseventos.com.br"
-            },
-            {
-                name: "Eder Lima",
-                email: "ederlima@dkseventos.com.br"
-            },
-            {
-                name: "Elini Jaudy",
-                email: "producaoexecutiva@dkseventos.com.br"
-            },
-            {
-                name: "Eloisa Campana",
-                email: "eloisacampana@vmoeventos.com.br"
-            },
-            {
-                name: "Ellen Araujo",
-                email: "ellenaraujo@dkseventos.com.br"
-            },
-            {
-                name: "Katia Greco",
-                email: "financeiro@dkseventos.com.br"
-            },
-            {
-                name: "Marcelo Ferreira",
-                email: "ferreiradmkt@gmail.com"
-            },
-            {
-                name: "Marcelo Moraes",
-                email: "administrativo@dkseventos.com.br"
-            },
-            {
-                name: "Oliver Menck",
-                email: "olivermenck@dkseventos.com.br"
-            },
-            {
-                name: "Samara Hassan",
-                email: "samarahassan@dkseventos.com.br"
-            },
-            {
-                name: "Thiago Dantas",
-                email: "thiagodantas@dkseventos.com.br"
-            },
-            {
-                name: "Thiago Gonçalo",
-                email: "thiagogoncalo@dkseventos.com.br"
-            },
-            {
-                name: "Victor Moraes",
-                email: "victormoraes@dkseventos.com.br"
-            },
-            {
-                name: "Wellington Lima",
-                email: "wellingtonlima@dkseventos.com.br"
-            }]
+            users: [],
+            loaded: false
         }
     },
 
@@ -209,16 +142,29 @@ export default {
                 button.style.backgroundColor = "var(--color-dks)";
 
                 alert("Solicitação feita com sucesso!");
+                this.$router.push("/painel");
               }); 
             } else {
                 alert("Preencha todos os campos!");
             }
+        },
+
+        async loadUsers(){
+            axios.post("https://dks-manager-backend.herokuapp.com/users").then(res => {
+                this.users = res.data;
+                this.loaded = true;
+                this.demandante = localStorage.email;
+            }).catch(err => {
+                throw err;
+            });
         }
     },
 
     async mounted(){
         if(await auth() == false){
             this.$router.push("/login");
+        } else {
+            await this.loadUsers();
         }
     }
 

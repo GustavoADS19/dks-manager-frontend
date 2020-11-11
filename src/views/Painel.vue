@@ -92,7 +92,7 @@ export default {
             } else {
                 this.$router.push("/login");
             }
-        }
+        },
     },
     mounted(){
         this.authorize();
