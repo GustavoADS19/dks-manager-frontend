@@ -16,7 +16,7 @@
             <input type="password" name="password" class="form-control" v-model="password"/>
         </div>
         </form>
-        <router-link to="/registro">Registrar um usuário</router-link>
+        <b><router-link to="/registro">Não possui um login? Clique aqui para realizar o cadastro.</router-link></b>
         <div class="log">
             <button v-bind:disabled="loading" class="btn" v-on:click="authenticateUser">LOGAR</button>
             <img src="../assets/loading.gif" v-if="loading == true">
@@ -75,12 +75,22 @@ export default {
         justify-content: center;
         height: 100vh;
         min-height: 600px;
+        width: 100%;
         background-image: url("../assets/background.png");
         background-size: 100vw;
     }
 
+    .login-container b {
+        padding: 12px;
+    }
+
     .login-title {
         text-align: center;
+    }
+
+    .login-container form {
+        width: 80%;
+        max-width: 450px;
     }
 
     .input-container{

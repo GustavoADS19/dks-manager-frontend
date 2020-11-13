@@ -30,7 +30,7 @@
             <br>
             <input required="required" type="text" name="whatsapp" class="form-control" v-model="whatsapp"/>
         </div>
-        <router-link to="/login">Já possui uma conta? Faça o login.</router-link>
+        <b><router-link to="/login">Já possui uma conta? Faça o login.</router-link></b>
         <div class="btn-container">
             <button type="submit" class="btn register" v-on:click="registerUser">REGISTRAR</button>
         </div>
@@ -91,6 +91,11 @@ export default {
         background-size: 100vw;
     }
 
+    .register-container form {
+        max-width: 450px;
+        width: 80%;
+    }
+
     .register-title {
         text-align: center;
     }
@@ -123,10 +128,6 @@ export default {
         margin-bottom: 40px;
         color: white;
         padding: 5px 40px;
-    }
-
-    form { 
-        width: 450px;
     }
 
     a{

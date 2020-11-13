@@ -57,6 +57,7 @@
 
                     <div class="button-container btn-center">
                         <button type="submit" class="btn btn-primary" v-on:click="enviarDados">ENVIAR SOLICITAÇÃO</button>
+                        <router-link to="/painel" class="btn btn-primary button-main"><b>Ver fila de demandas</b></router-link>
                     </div>
                 </form>
             </main>

@@ -1,7 +1,8 @@
 <template>
     <div class="listagem-chamados">
         <h1>Listagem de demandas</h1>
-        <button v-if="loaded == true" class="refresh-button" v-on:click="refresh()">Recarregar lista</button>
+        <button v-if="loaded == true" class="refresh-button" v-on:click="refresh()"><b>Recarregar lista</b></button>
+        <router-link to="/abrir-chamado"><button v-if="loaded == true" class="refresh-button"><b>Abrir Chamado</b></button></router-link>
         <h2 v-if="loaded == false">Carregando documentos..</h2>
         <ul v-if="loaded == true">
             <li v-for="(item, index) in items" v-bind:key="index" v-bind:data-id="item._id" v-bind:class="item.agencia.toLowerCase()">
@@ -57,6 +58,7 @@
         border-radius: 8px;
         font-size: 18px;
         outline: none;
+        margin-right: 8px;
     }
 
     .listagem-chamados .status {
