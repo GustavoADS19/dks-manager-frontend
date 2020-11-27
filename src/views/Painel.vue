@@ -12,6 +12,8 @@
                 <h6>Data limite de entrega: {{ item.dataLimite }}</h6>
                 <p>Descrição da demanda: {{ item.comentario }}</p>
                 <h5>Andamento: <b class="status">{{ item.status }}</b></h5>
+                <a v-bind:href="'http://localhost:3333/' + item.anexoPath" target="_blank"><button v-if="item.anexoPath != null" class="anexo">Ver anexo</button></a>
+                <br>
                 <img v-if="item.agencia == 'DKS'" src="../assets/dks.png">
                 <img v-if="item.agencia == 'VMO'" src="../assets/vmo.png">
                 <img v-if="item.agencia == 'GLW'" src="../assets/glw.png">
@@ -35,7 +37,7 @@
     }
 
     .listagem-chamados h5{
-        margin: 25px 0;
+        margin: 25px 0 15px;
     }
 
     .listagem-chamados li {
@@ -48,6 +50,17 @@
 
     .listagem-chamados img {
         width: 100px;
+    }
+
+    .listagem-chamados .anexo {
+        background: #89f321;
+        color: black;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 18px;
+        outline: none;
+        margin-bottom: 16px;
     }
 
     .listagem-chamados .refresh-button {
@@ -97,7 +110,11 @@ export default {
         },
     },
     mounted(){
-        this.authorize();
+        this.authorize().then(()=> {
+            setInterval(()=> {
+                this.refresh();
+            }, 1000 * 60);
+        });
     }
 }
 </script>

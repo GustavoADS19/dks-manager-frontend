@@ -50,10 +50,10 @@
                         <textarea required="required" name="comentario" class="form-control" v-model="comentario"/>
                     </div>
 
-                    <!--<div class="form-group">
+                    <div class="form-group">
                         <label for="anexo">Fazer upload dos arquivos</label>
-                        <input name="anexo" type="file" accept=".png, .jpg, .jpeg"/>
-                    </div>-->
+                        <input name="anexo" type="file" accept=".png, .jpg, .jpeg .pdf .docx"/>
+                    </div>
 
                     <div class="button-container btn-center">
                         <button type="submit" class="btn btn-primary" v-on:click="enviarDados">ENVIAR SOLICITAÇÃO</button>
@@ -121,14 +121,17 @@ export default {
             const img = document.querySelector("footer img"); 
             const button = document.querySelector("button[type=submit]");
 
-            const agencia = this.agencia;
-            const demandante = this.demandante;
-            const demandado = this.demandado;
-            const material = this.material;
-            const dataLimite = this.dataLimite
-            const comentario = this.comentario;
+            const anexoFile = document.querySelector("input[name=anexo]");
 
-            const data = {agencia, demandante, demandado, material, dataLimite, comentario};
+            const data = new FormData();
+
+            data.append("agencia", this.agencia);
+            data.append("demandante", this.demandante);
+            data.append("demandado", this.demandado);
+            data.append("material", this.material);
+            data.append("dataLimite", this.dataLimite);
+            data.append("comentario", this.comentario);
+            data.append("demandImage", anexoFile.files[0]);
             
             if(this.agencia.trim() !== "" && this.demandante.trim() !== "" && this.demandado.trim() !== "" && this.material.trim() !== "" && this.dataLimite.trim() !== "" && this.comentario.trim() !== ""){
               axios.post("https://dks-manager-backend.herokuapp.com/register-demand", data).then((res)=> {
