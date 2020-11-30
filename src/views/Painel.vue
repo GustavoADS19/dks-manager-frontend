@@ -94,7 +94,7 @@ export default {
         refresh(){
             this.items = [];
             this.loaded = false;
-            axios.get("https://dks-manager-backend.herokuapp.com/demands").then(res => {
+            axios.get("http://backend-dksmanager-com-br.umbler.net/demands").then(res => {
                 this.items = res.data;
                 this.loaded = true;
             });

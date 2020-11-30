@@ -47,7 +47,7 @@ export default {
                 password: this.password
             };
 
-            axios.post("https://dks-manager-backend.herokuapp.com/login", data).then( res => {
+            axios.post("http://backend-dksmanager-com-br.umbler.net/login", data).then( res => {
                 console.log(res);
                 if(res.data.message == "Authenticated successfully"){
                     localStorage.setItem("email", this.email);

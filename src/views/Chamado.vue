@@ -134,7 +134,7 @@ export default {
             data.append("demandImage", anexoFile.files[0]);
             
             if(this.agencia.trim() !== "" && this.demandante.trim() !== "" && this.demandado.trim() !== "" && this.material.trim() !== "" && this.dataLimite.trim() !== "" && this.comentario.trim() !== ""){
-              axios.post("https://dks-manager-backend.herokuapp.com/register-demand", data).then((res)=> {
+              axios.post("http://backend-dksmanager-com-br.umbler.net/register-demand", data).then((res)=> {
                 this.agencia = "DKS";
                 this.demandante = "";
                 this.demandado = "";
@@ -154,7 +154,7 @@ export default {
         },
 
         async loadUsers(){
-            axios.post("https://dks-manager-backend.herokuapp.com/users").then(res => {
+            axios.post("http://backend-dksmanager-com-br.umbler.net/users").then(res => {
                 this.users = res.data;
                 this.loaded = true;
                 this.demandante = localStorage.email;
