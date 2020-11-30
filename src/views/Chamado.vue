@@ -121,7 +121,7 @@ export default {
             const img = document.querySelector("footer img"); 
             const button = document.querySelector("button[type=submit]");
 
-            //const anexoFile = document.querySelector("input[name=anexo]");
+            /*const anexoFile = document.querySelector("input[name=anexo]");
 
             const data = new FormData();
 
@@ -131,8 +131,18 @@ export default {
             data.append("material", this.material);
             data.append("dataLimite", this.dataLimite);
             data.append("comentario", this.comentario);
-            //data.append("demandImage", anexoFile.files[0]);
-            
+            data.append("demandImage", anexoFile.files[0]);
+            */
+
+           const data = {
+               agencia: this.agencia,
+               demandante: this.demandante,
+               demandado: this.demandado,
+               material: this.material,
+               dataLimite: this.dataLimite,
+               comentario: this.comentario
+           }
+           
             if(this.agencia.trim() !== "" && this.demandante.trim() !== "" && this.demandado.trim() !== "" && this.material.trim() !== "" && this.dataLimite.trim() !== "" && this.comentario.trim() !== ""){
               axios.post("http://backend-dksmanager-com-br.umbler.net/register-demand", data).then((res)=> {
                 this.agencia = "DKS";
