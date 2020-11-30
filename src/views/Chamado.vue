@@ -144,6 +144,7 @@ export default {
            }
            
             if(this.agencia.trim() !== "" && this.demandante.trim() !== "" && this.demandado.trim() !== "" && this.material.trim() !== "" && this.dataLimite.trim() !== "" && this.comentario.trim() !== ""){
+              button.disabled = true;
               axios.post("http://backend-dksmanager-com-br.umbler.net/register-demand", data).then((res)=> {
                 this.agencia = "DKS";
                 this.demandante = "";
@@ -156,10 +157,12 @@ export default {
                 button.style.backgroundColor = "var(--color-dks)";
 
                 alert("Solicitação feita com sucesso!");
+                button.disabled = false;
                 this.$router.push("/painel");
               }); 
             } else {
                 alert("Preencha todos os campos!");
+                button.disabled = false;
             }
         },
 
