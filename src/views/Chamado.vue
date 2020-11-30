@@ -50,10 +50,10 @@
                         <textarea required="required" name="comentario" class="form-control" v-model="comentario"/>
                     </div>
 
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label for="anexo">Fazer upload dos arquivos</label>
                         <input name="anexo" type="file" accept=".png, .jpg, .jpeg .pdf .docx"/>
-                    </div>
+                    </div>-->
 
                     <div class="button-container btn-center">
                         <button type="submit" class="btn btn-primary" v-on:click="enviarDados">ENVIAR SOLICITAÇÃO</button>
