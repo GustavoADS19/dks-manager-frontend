@@ -64,7 +64,7 @@ export default {
             const data = { name, email, password, whatsapp };
             if(name.trim() !== "" && email.trim() !== "" && password.trim() !== "" && whatsapp.trim() !== ""){
                 if(password == this.passwordCheck){
-                    axios.post("http://backend-dksmanager-com-br.umbler.net/create-user", data).then((response)=>{
+                    axios.post("https://backend-dksmanager-com-br.umbler.net/create-user", data).then((response)=>{
                         alert("Usuário registrado com sucesso!");
                         this.$router.push("/login");
                     });

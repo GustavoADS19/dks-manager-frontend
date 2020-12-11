@@ -50,10 +50,10 @@
                         <textarea required="required" name="comentario" class="form-control" v-model="comentario"/>
                     </div>
 
-                    <!--<div class="form-group">
+                    <div class="form-group">
                         <label for="anexo">Fazer upload dos arquivos</label>
                         <input name="anexo" type="file" accept=".png, .jpg, .jpeg .pdf .docx"/>
-                    </div>-->
+                    </div>
 
                     <div class="button-container btn-center">
                         <button type="submit" class="btn btn-primary" v-on:click="enviarDados">ENVIAR SOLICITAÇÃO</button>
@@ -115,14 +115,53 @@ export default {
             }
         },
 
-        enviarDados(){
+        enviarDados(event){
             event.preventDefault();
 
-            const img = document.querySelector("footer img"); 
-            const button = document.querySelector("button[type=submit]");
+            const anexoFile = document.querySelector("input[name=anexo]");
+            const fileReader = new FileReader();
 
-            /*const anexoFile = document.querySelector("input[name=anexo]");
+            fileReader.readAsDataURL(anexoFile.files[0]);
 
+            fileReader.onloadend = () => {
+                console.log(fileReader.result);
+
+                const img = document.querySelector("footer img"); 
+                const button = document.querySelector("button[type=submit]");
+
+                const data = {
+                    agencia: this.agencia,
+                    demandante: this.demandante,
+                    demandado: this.demandado,
+                    material: this.material,
+                    dataLimite: this.dataLimite,
+                    comentario: this.comentario,
+                    anexoData: fileReader.result
+                };
+           
+                if(this.agencia.trim() !== "" && this.demandante.trim() !== "" && this.demandado.trim() !== "" && this.material.trim() !== "" && this.dataLimite.trim() !== "" && this.comentario.trim() !== ""){
+                    button.disabled = true;
+                    axios.post("https://backend-dksmanager-com-br.umbler.net/register-demand", data).then((res)=> {
+                        this.agencia = "DKS";
+                        this.demandante = "";
+                        this.demandado = "";
+                        this.material = "";
+                        this.dataLimite = "";
+                        this.comentario = "";
+
+                        img.src = dks;
+                        button.style.backgroundColor = "var(--color-dks)";
+
+                        alert("Solicitação feita com sucesso!");
+                        button.disabled = false;
+                        this.$router.push("/painel");
+                    }); 
+                } else {
+                    alert("Preencha todos os campos!");
+                    button.disabled = false;
+                }
+            };
+            /*
             const data = new FormData();
 
             data.append("agencia", this.agencia);
@@ -133,41 +172,10 @@ export default {
             data.append("comentario", this.comentario);
             data.append("demandImage", anexoFile.files[0]);
             */
-
-           const data = {
-               agencia: this.agencia,
-               demandante: this.demandante,
-               demandado: this.demandado,
-               material: this.material,
-               dataLimite: this.dataLimite,
-               comentario: this.comentario
-           }
-           
-            if(this.agencia.trim() !== "" && this.demandante.trim() !== "" && this.demandado.trim() !== "" && this.material.trim() !== "" && this.dataLimite.trim() !== "" && this.comentario.trim() !== ""){
-              button.disabled = true;
-              axios.post("http://backend-dksmanager-com-br.umbler.net/register-demand", data).then((res)=> {
-                this.agencia = "DKS";
-                this.demandante = "";
-                this.demandado = "";
-                this.material = "";
-                this.dataLimite = "";
-                this.comentario = "";
-
-                img.src = dks;
-                button.style.backgroundColor = "var(--color-dks)";
-
-                alert("Solicitação feita com sucesso!");
-                button.disabled = false;
-                this.$router.push("/painel");
-              }); 
-            } else {
-                alert("Preencha todos os campos!");
-                button.disabled = false;
-            }
         },
 
         async loadUsers(){
-            axios.post("http://backend-dksmanager-com-br.umbler.net/users").then(res => {
+            axios.post("https://backend-dksmanager-com-br.umbler.net/users").then(res => {
                 this.users = res.data;
                 this.loaded = true;
                 this.demandante = localStorage.email;

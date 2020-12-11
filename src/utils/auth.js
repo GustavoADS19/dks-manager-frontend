@@ -8,7 +8,7 @@ export default async function authorize() {
             email: localStorage.getItem("email"),
             token: localStorage.getItem("authorization")
         };
-        return await axios.post("https://dks-manager-backend.herokuapp.com/auth", data).then(res => {
+        return await axios.post("https://backend-dksmanager-com-br.umbler.net/auth", data).then(res => {
             const response = res.data;
             if (response.authenticated == false) {
                 return false;
