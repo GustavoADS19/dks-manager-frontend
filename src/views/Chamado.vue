@@ -121,9 +121,10 @@ export default {
             const anexoFile = document.querySelector("input[name=anexo]");
             const fileReader = new FileReader();
 
-            fileReader.readAsDataURL(anexoFile.files[0]);
+            if(anexoFile.files[0]) {
+                fileReader.readAsDataURL(anexoFile.files[0]);
 
-            fileReader.onloadend = () => {
+                fileReader.onloadend = () => {
                 console.log(fileReader.result);
 
                 const img = document.querySelector("footer img"); 
@@ -160,18 +161,43 @@ export default {
                     alert("Preencha todos os campos!");
                     button.disabled = false;
                 }
-            };
-            /*
-            const data = new FormData();
+                };
+            } else {
+                const img = document.querySelector("footer img"); 
+                const button = document.querySelector("button[type=submit]");
 
-            data.append("agencia", this.agencia);
-            data.append("demandante", this.demandante);
-            data.append("demandado", this.demandado);
-            data.append("material", this.material);
-            data.append("dataLimite", this.dataLimite);
-            data.append("comentario", this.comentario);
-            data.append("demandImage", anexoFile.files[0]);
-            */
+                const data = {
+                    agencia: this.agencia,
+                    demandante: this.demandante,
+                    demandado: this.demandado,
+                    material: this.material,
+                    dataLimite: this.dataLimite,
+                    comentario: this.comentario,
+                    anexoData: null
+                };
+           
+                if(this.agencia.trim() !== "" && this.demandante.trim() !== "" && this.demandado.trim() !== "" && this.material.trim() !== "" && this.dataLimite.trim() !== "" && this.comentario.trim() !== ""){
+                    button.disabled = true;
+                    axios.post("https://backend-dksmanager-com-br.umbler.net/register-demand", data).then((res)=> {
+                        this.agencia = "DKS";
+                        this.demandante = "";
+                        this.demandado = "";
+                        this.material = "";
+                        this.dataLimite = "";
+                        this.comentario = "";
+
+                        img.src = dks;
+                        button.style.backgroundColor = "var(--color-dks)";
+
+                        alert("Solicitação feita com sucesso!");
+                        button.disabled = false;
+                        this.$router.push("/painel");
+                    }); 
+                } else {
+                    alert("Preencha todos os campos!");
+                    button.disabled = false;
+                }
+            }
         },
 
         async loadUsers(){
