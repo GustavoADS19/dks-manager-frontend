@@ -169,7 +169,7 @@ export default {
                 id: itemId,
                 status: statusValue
             };
-            axios.post("http://localhost:3333/update-demand", data).then(res => {
+            axios.post("https://backend-dksmanager-com-br.umbler.net/update-demand", data).then(res => {
                 const statusText = document.querySelector(`b[data-demandid="${itemId}"]`);
                 statusText.innerHTML = statusValue;
             });
