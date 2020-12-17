@@ -30,8 +30,8 @@
 
                     <div class="form-group">
                         <label for="demandado">Demandado</label>
-                        <select required="required" disabled name="demandado" class="form-control" type="text" v-model="demandado">
-                            <option selected="selected" value="matheusibrahim@dkseventos.com.br">Matheus Ibrahim - matheusibrahim@dkseventos.com.br</option>
+                        <select required="required" name="demandado" class="form-control" type="text" v-model="demandado">
+                            <option v-for="(user, index) in users" v-bind:key="index" v-bind:value="user.email">{{user.name}} - {{user.email}}</option>
                         </select>
                     </div>
 
@@ -50,10 +50,10 @@
                         <textarea required="required" name="comentario" class="form-control" v-model="comentario"/>
                     </div>
 
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label for="anexo">Fazer upload dos arquivos</label>
                         <input name="anexo" type="file" accept=".png, .jpg, .jpeg .pdf .docx"/>
-                    </div>
+                    </div>-->
 
                     <div class="button-container btn-center">
                         <button type="submit" class="btn btn-primary" v-on:click="enviarDados">ENVIAR SOLICITAÇÃO</button>
@@ -117,11 +117,10 @@ export default {
 
         enviarDados(event){
             event.preventDefault();
-
             const anexoFile = document.querySelector("input[name=anexo]");
             const fileReader = new FileReader();
 
-            if(anexoFile.files[0]) {
+            if(anexoFile && anexoFile.files[0]) {
                 fileReader.readAsDataURL(anexoFile.files[0]);
 
                 fileReader.onloadend = () => {
